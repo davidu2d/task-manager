@@ -1,0 +1,68 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks:
+      - hiveplace_network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: hiveplace
+      MONGO_INITDB_ROOT_PASSWORD: hiveplace
+      MONGO_INITDB_DATABASE: mongodb_hiveplace
+    volumes:
+      - mongodb-data:/data/db/
+      - mongodb-log:/var/log/mongodb/
+  mongo-express:
+    image: mongo-express
+    ports:
+      - '8081:8081'
+    networks:
+      - hiveplace_network
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: hiveplace
+      ME_CONFIG_BASICAUTH_PASSWORD: hiveplace
+      ME_CONFIG_MONGODB_ADMINUSERNAME: hiveplace
+      ME_CONFIG_MONGODB_ADMINPASSWORD: hiveplace
+      ME_CONFIG_MONGODB_URL: mongodb://hiveplace:hiveplace@mongo:27017/
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_SERVER: 'mongo'
+    depends_on:
+      - mongo
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass aGl2ZXBsYWNl
+    volumes:
+      - cache:/data
+    networks:
+      - hiveplace_network
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${DEBUG:-0}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./init-s3.py:/etc/localstack/init/ready.d/init-s3.py"
+    networks:
+      - hiveplace_network
+
+volumes:
+  mongodb-data:
+    external: false
+  mongodb-log:
+    external: false
+  cache:
+    external: false
+
+networks:
+  hiveplace_network:
+    name: hiveplace_network
+    driver: bridge

@@ -1,0 +1,14 @@
+server:
+  port: 8181
+
+spring:
+  application:
+    name: task-manager
+  data:
+    mongodb:
+      host: ${MONGODB_SERVER:localhost}
+      port: ${MONGODB_PORT:27017}
+      database: ${MONGODB_DATABASE:mongodb_hiveplace}
+      username: ${MONGODB_USERNAME:hiveplace}
+      password: ${MONGODB_PASSWORD:hiveplace}
+      authentication-database: admin
