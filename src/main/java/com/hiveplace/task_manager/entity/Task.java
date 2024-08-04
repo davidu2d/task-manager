@@ -1,5 +1,7 @@
 package com.hiveplace.task_manager.entity;
 
+import com.hiveplace.task_manager.enums.TaskStatus;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @Document(collection = "tasks")
 public class Task {
 
@@ -15,7 +18,7 @@ public class Task {
 
     private String description;
 
-    private String status;
+    private TaskStatus status;
 
     private LocalDateTime dateTimeCreated;
 

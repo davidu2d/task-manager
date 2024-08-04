@@ -1,12 +1,16 @@
 package com.hiveplace.task_manager.controller;
 
+import com.hiveplace.task_manager.dto.TaskDTO;
 import com.hiveplace.task_manager.entity.Task;
 import com.hiveplace.task_manager.service.TaskService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,9 +23,10 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping
-    public Mono<ResponseEntity<Task>> save(@RequestBody Task task){
-        return taskService.save(task)
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public Mono<ResponseEntity<TaskDTO>> save(@ModelAttribute("task") TaskDTO task
+    ){
+        return taskService.save(task, task.anexo())
                 .map(ta -> ResponseEntity.status(HttpStatus.CREATED).body(ta))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }

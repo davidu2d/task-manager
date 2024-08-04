@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: task-manager
+  profiles:
+    active: localstack #@activatedProperties@
   data:
     mongodb:
       host: ${MONGODB_SERVER:localhost}
@@ -12,3 +14,14 @@ spring:
       username: ${MONGODB_USERNAME:hiveplace}
       password: ${MONGODB_PASSWORD:hiveplace}
       authentication-database: admin
+
+tasks:
+  bucket:
+    name: task-manager
+  queue:
+    url: http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/task-manager
+
+logging:
+  level:
+    com:
+      amazonaws: debug
