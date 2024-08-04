@@ -43,6 +43,7 @@ services:
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+      - "127.0.0.1:4571:4571"            # LocalStack lambda
     environment:
       # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
       - DEBUG=${DEBUG:-0}
@@ -51,6 +52,7 @@ services:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./init-aws.py:/etc/localstack/init/ready.d/init-aws.py"
+      - "./lambda_function.zip:/etc/localstack/init/ready.d/lambda_function.zip"
     networks:
       - hiveplace_network
 

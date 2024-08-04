@@ -14,11 +14,16 @@ import java.net.URI;
 public class AwsConfig {
 
     @Bean
+    public AwsBasicCredentials awsCreds(){
+        return AwsBasicCredentials.create("localstack", "localstack");
+    }
+
+    @Bean
     public S3Client s3Client() {
         return S3Client.builder()
                 .endpointOverride(URI.create("http://s3.localhost.localstack.cloud:4566"))
                 .region(Region.US_EAST_1)
-                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("localstack", "localstack")))
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds()))
                 .build();
     }
 
@@ -27,7 +32,7 @@ public class AwsConfig {
         return SqsAsyncClient.builder()
                 .endpointOverride(URI.create("http://sqs.us-east-1.localhost.localstack.cloud:4566"))
                 .region(Region.US_EAST_1)
-                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("localstack", "localstack")))
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds()))
                 .build();
     }
 }

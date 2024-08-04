@@ -1,19 +1,20 @@
 package com.hiveplace.task_manager.service.impl;
 
 import com.hiveplace.task_manager.service.FileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.file.Path;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -26,19 +27,21 @@ public class FileServiceImpl implements FileService {
     }
     @Override
     public void uploadFile(String fileName, FilePart file) throws IOException {
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(fileName)
-                .build();
-        s3Client.putObject(
-                    putObjectRequest,
-                    RequestBody.fromByteBuffer(file.content().map(dataBuffer -> {
-                            ByteBuffer byteBuffer = ByteBuffer.allocate(dataBuffer.readableByteCount());
-                            dataBuffer.read(byteBuffer.array());
-                            byteBuffer.flip();
-                            return byteBuffer;
-                        }).blockFirst()
-                    )
-                );
+        var basePath = Paths.get("").toAbsolutePath();
+        var uploadsPath = basePath.resolve(fileName);
+        var filePath  = uploadsPath.resolve(file.filename());
+        try {
+            Files.createDirectories(uploadsPath);
+            if (!Files.exists(filePath))
+                Files.createFile(filePath);
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .build();
+            PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromFile(filePath.toAbsolutePath()));
+           log.info("File uploaded successfully: " + response.eTag());
+        } catch (IOException e) {
+            log.error("Failed to create directory or file: " + e.getMessage());
+        }
     }
 }
