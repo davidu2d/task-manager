@@ -24,14 +24,14 @@ lambda_client = boto3.client(
     aws_secret_access_key="localstack"
 )
 
-# Cria bucket S3
+# Cria um bucket S3
 s3_client.create_bucket(Bucket="task-manager")
 
-# Cria a fila SQS
+# Cria uma fila SQS
 response = sqs_client.create_queue(QueueName="task-manager", Attributes={'DelaySeconds': '5'})
 queue_url = response['QueueUrl']
 
-# Cria a função Lambda
+# Cria uma função Lambda
 zip_path = '/etc/localstack/init/ready.d/lambda_function.zip'
 with open(zip_path, 'rb') as f:
     zipped_code = f.read()
@@ -48,7 +48,7 @@ response = lambda_client.create_function(
 
 lambda_arn = response['FunctionArn']
 
-# Criar uma permissão para a Lambda acessar SQS
+# Cria uma permissão para a Lambda acessar SQS
 lambda_client.add_permission(
     FunctionName='TasksLambdaFunction',
     StatementId='SQSInvoke',

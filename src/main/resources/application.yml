@@ -14,6 +14,14 @@ spring:
       username: ${MONGODB_USERNAME:hiveplace}
       password: ${MONGODB_PASSWORD:hiveplace}
       authentication-database: admin
+    redis:
+      host: localhost
+      port: 6379
+    session:
+      store-type: redis
+      redis:
+        flush-mode: on-save
+        namespace: task-manager:sessions
 
 tasks:
   bucket:
@@ -25,3 +33,9 @@ logging:
   level:
     com:
       amazonaws: debug
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

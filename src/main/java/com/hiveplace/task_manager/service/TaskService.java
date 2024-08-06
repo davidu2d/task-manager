@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 public interface TaskService {
     Mono<TaskDTO> save(TaskDTO task, FilePart anexo);
-    Flux<Task> findAll(String status, Pageable pageable);
-    Mono<Task> update(String id, Task task);
+    Flux<TaskDTO> findAll(String status, Pageable pageable);
+    Mono<TaskDTO> update(String id, TaskDTO task);
     Mono<Void> delete(String id);
 }

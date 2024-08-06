@@ -60,22 +60,25 @@ public class TaskServiceImpl implements TaskService {
         });
     }
     @Override
-    public Flux<Task> findAll(String status, Pageable pageable) {
+    public Flux<TaskDTO> findAll(String status, Pageable pageable) {
         Query query = new Query();
         if(status != null && !status.isEmpty())
             query.addCriteria(Criteria.where("status").is(status));
         query.with(pageable);
-        return mongoTemplate.find(query, Task.class);
+        var response = mongoTemplate.find(query, Task.class);
+        return response.map(TaskDTO::fromEntity);
     }
 
     @Override
-    public Mono<Task> update(String id, Task task) {
+    public Mono<TaskDTO> update(String id, TaskDTO task) {
         return taskRepository.findById(id)
                 .flatMap(recoveredTask -> {
+                    var dateCreted = recoveredTask.getDateTimeCreated();
                     BeanUtils.copyProperties(task, recoveredTask);
+                    recoveredTask.setDateTimeCreated(dateCreted);
                     recoveredTask.setDateTimeUpdate(LocalDateTime.now());
                     return taskRepository.save(recoveredTask);
-                });
+                }).map(TaskDTO::fromEntity);
     }
 
     @Override
