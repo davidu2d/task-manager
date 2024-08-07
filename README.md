@@ -23,6 +23,12 @@ Os containers criados nessa fase são:
 Para ver recursos executados, criados e logs(CloudWatch Logs) acessar:
 [Localstack Dashboar](https://app.localstack.cloud/inst/default/status)
 
+* ### Teste
+* Para executar os testes unitários e de integração
+```
+mvn test
+```
+
 
 
 
