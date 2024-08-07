@@ -1,8 +1,8 @@
 package com.hiveplace.task_manager.service.impl;
 
-import com.hiveplace.task_manager.dto.TaskDTO;
 import com.hiveplace.task_manager.entity.Task;
 import com.hiveplace.task_manager.enums.TaskStatus;
+import com.hiveplace.task_manager.model.TaskDTO;
 import com.hiveplace.task_manager.repository.TaskRepository;
 import com.hiveplace.task_manager.service.FileService;
 import com.hiveplace.task_manager.service.MessageService;
@@ -13,8 +13,8 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -41,6 +41,7 @@ public class TaskServiceImpl implements TaskService {
         this.fileService = fileService;
         this.messageService = messageService;
     }
+    @PreAuthorize("hasRole('USER')")
     @Override
     public Mono<TaskDTO> save(TaskDTO task, FilePart anexo) {
         var newTask = task.toEntity();
@@ -59,6 +60,7 @@ public class TaskServiceImpl implements TaskService {
             }
         });
     }
+    @PreAuthorize("hasRole('USER')")
     @Override
     public Flux<TaskDTO> findAll(String status, Pageable pageable) {
         Query query = new Query();
@@ -68,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
         var response = mongoTemplate.find(query, Task.class);
         return response.map(TaskDTO::fromEntity);
     }
-
+    @PreAuthorize("hasRole('USER')")
     @Override
     public Mono<TaskDTO> update(String id, TaskDTO task) {
         return taskRepository.findById(id)
@@ -80,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
                     return taskRepository.save(recoveredTask);
                 }).map(TaskDTO::fromEntity);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public Mono<Void> delete(String id) {
         return taskRepository.deleteById(id);

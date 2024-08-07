@@ -1,4 +1,16 @@
 services:
+  tasks-manager:
+    build: .
+    ports:
+      - '8181:8181'
+    networks:
+      - hiveplace_network
+    environment:
+      MONGODB_SERVER: localhost
+      MONGODB_PORT: 27017
+      MONGODB_DATABASE: mongodb_hiveplace
+      MONGODB_USERNAME: hiveplace
+      MONGODB_PASSWORD: hiveplace
   mongo:
     image: mongo
     ports:

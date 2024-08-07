@@ -1,7 +1,6 @@
 package com.hiveplace.task_manager.service;
 
-import com.hiveplace.task_manager.dto.TaskDTO;
-import com.hiveplace.task_manager.entity.Task;
+import com.hiveplace.task_manager.model.TaskDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;

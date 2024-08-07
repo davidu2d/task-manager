@@ -3,7 +3,6 @@ package com.hiveplace.task_manager.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hiveplace.task_manager.config.LocalDateTimeTypeAdapter;
-import com.hiveplace.task_manager.dto.TaskDTO;
 import com.hiveplace.task_manager.entity.Task;
 import com.hiveplace.task_manager.service.MessageService;
 import lombok.extern.slf4j.Slf4j;

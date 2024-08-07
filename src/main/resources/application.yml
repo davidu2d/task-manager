@@ -17,11 +17,7 @@ spring:
     redis:
       host: localhost
       port: 6379
-    session:
-      store-type: redis
-      redis:
-        flush-mode: on-save
-        namespace: task-manager:sessions
+      password: aGl2ZXBsYWNl
 
 tasks:
   bucket:
@@ -31,8 +27,7 @@ tasks:
 
 logging:
   level:
-    com:
-      amazonaws: debug
+    org.springframework.data.redis: debug
 
 springdoc:
   api-docs:

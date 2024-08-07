@@ -1,12 +1,9 @@
-package com.hiveplace.task_manager.dto;
+package com.hiveplace.task_manager.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.hiveplace.task_manager.entity.Task;
 import com.hiveplace.task_manager.enums.TaskStatus;
 import lombok.Builder;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 

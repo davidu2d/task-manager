@@ -1,4 +1,4 @@
-package com.hiveplace.task_manager.dto;
+package com.hiveplace.task_manager.model;
 
 import lombok.Builder;
 
