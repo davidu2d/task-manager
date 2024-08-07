@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "534e91c0-8098-4650-9bb3-f62a04e88a0b",
+		"name": "task-manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5036272"
+	},
+	"item": [
+		{
+			"name": "save",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaXZlcGxhY2UiLCJpYXQiOjE3MjMwNTY5MDksImV4cCI6MTcyMzA1NzgwOX0.Vv6nIGdirRbIZFQlE6mEA6stAiUjVt4fqSVnudbYrlXBGPMimUQwCOLRJyMy5-VtmnVIxZOq2wVa56qi9nFDEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/octet-stream",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "anexo",
+							"type": "file",
+							"src": "/C:/Users/Colaborador/Downloads/paiefilho.jpeg"
+						},
+						{
+							"key": "description",
+							"value": "task priority high",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8181/v1/tasks",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"v1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAll",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaXZlcGxhY2UiLCJpYXQiOjE3MjMwNTY5MDksImV4cCI6MTcyMzA1NzgwOX0.Vv6nIGdirRbIZFQlE6mEA6stAiUjVt4fqSVnudbYrlXBGPMimUQwCOLRJyMy5-VtmnVIxZOq2wVa56qi9nFDEA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8181/v1/tasks?status=NAO_CONCLUIDA&page=0&size=5&sortBy=dateTimeCreated&sortDirection=desc",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"v1",
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "NAO_CONCLUIDA"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sortBy",
+							"value": "dateTimeCreated"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"66b0f2187c3eb53b680fc859\",\r\n    \"description\": \"task priority\",\r\n    \"status\": \"CONCLUIDA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8181/v1/tasks/66b0f2187c3eb53b680fc859",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"v1",
+						"tasks",
+						"66b0f2187c3eb53b680fc859"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyMzA1Njk3OSwiZXhwIjoxNzIzMDU3ODc5fQ.m1CwIRLJy4hHTECIXf17JRlN2XC-DKw3izejZOyHpDvcsaYeIXo62kLS8hVXZcR6g44Kr0-8dY88A2ylOEgQVA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8181/v1/tasks/66b3c12966493633f2cd2458",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"v1",
+						"tasks",
+						"66b3c12966493633f2cd2458"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "hiveplace",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8181/v1/auth/token",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"v1",
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
