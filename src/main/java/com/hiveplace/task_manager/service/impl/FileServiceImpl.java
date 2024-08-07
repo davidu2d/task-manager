@@ -26,7 +26,7 @@ public class FileServiceImpl implements FileService {
         this.s3Client = s3Client;
     }
     @Override
-    public void uploadFile(String fileName, FilePart file) throws IOException {
+    public void uploadFile(String fileName, FilePart file) {
         var basePath = Paths.get("").toAbsolutePath();
         var uploadsPath = basePath.resolve(fileName);
         var filePath  = uploadsPath.resolve(file.filename());
